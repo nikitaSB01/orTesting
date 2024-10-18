@@ -1,10 +1,8 @@
-// src/js/_tests_/game.test.js
+// game.test.js
 
-// Импортируем все необходимые функции из app.js
 const { setupCardValidation } = require('../app');
 
 beforeEach(() => {
-  // Создаем необходимые элементы DOM для теста
   document.body.innerHTML = `
     <div class="container">
       <div class="card-icons">
@@ -21,7 +19,7 @@ beforeEach(() => {
     </div>
   `;
 
-  // Инициализируем обработчик событий
+  // Вызываем setupCardValidation только после того, как DOM-элементы были созданы
   setupCardValidation();
 });
 
@@ -29,7 +27,7 @@ test('should validate card number', () => {
   const input = document.querySelector('.input-group input');
   input.value = '4111111111111111'; // Пример номера Visa
 
-  // Нажимаем кнопку для валидации
+  // Имитируем клик на кнопку для валидации
   document.getElementById('validate').click();
 
   // Проверяем, что иконка Visa отображается

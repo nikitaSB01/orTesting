@@ -1,29 +1,23 @@
-// Функция для проверки валидности номера карты
+console.log('hell');
+
+// Функция для проверки валидности номера карты (алгоритм Луна)
 function luhnCheck(cardNumber) {
   let sum = 0;
   let shouldDouble = false;
 
-  // Перебираем номер карты с конца
   for (let i = cardNumber.length - 1; i >= 0; i -= 1) {
-    // Используем radix 10 для парсинга
     let digit = parseInt(cardNumber[i], 10);
 
-    // Если необходимо удвоить цифру
     if (shouldDouble) {
       digit *= 2;
-      // Если удвоенная цифра больше 9, вычитаем 9
       if (digit > 9) {
         digit -= 9;
       }
     }
-
-    // Добавляем цифру к сумме
     sum += digit;
-    // Меняем состояние для удвоения следующей цифры
     shouldDouble = !shouldDouble;
   }
 
-  // Возвращаем true, если сумма делится на 10 без остатка
   return sum % 10 === 0;
 }
 
@@ -34,39 +28,59 @@ function getCardSystem(cardNumber) {
   if (/^3[47]/.test(cardNumber)) return 'American Express';
   if (/^220[0-4]/.test(cardNumber)) return 'Mir';
   if (/^6(?:011|5)/.test(cardNumber)) return 'Discover';
+  if (/^35/.test(cardNumber)) return 'JCB';
+  if (/^30[0-5]|^36|^38/.test(cardNumber)) return 'Diners Club';
   return 'Unknown';
 }
 
-// Функция для обработки события нажатия кнопки
 function setupCardValidation() {
-  document.getElementById('validate').addEventListener('click', () => {
+  const validateButton = document.getElementById('validate');
+
+  if (!validateButton) {
+    console.error('Кнопка "validate" не найдена');
+    return;
+  }
+
+  validateButton.addEventListener('click', () => {
     const cardNumber = document.querySelector('.input-group input').value; // Получаем номер карты
     const system = getCardSystem(cardNumber); // Определяем платёжную систему
     const cardIcons = document.querySelectorAll('.card-icons-img'); // Получаем все изображения карт
 
-    // Очищаем видимые иконки
-    Array.from(cardIcons).forEach((icon) => {
-      // Создаём отдельную переменную для хранения ссылки на иконку
-      const cardIcon = icon;
-      cardIcon.style.display = 'none'; // Скрываем все иконки
+    // Делаем все иконки полупрозрачными (скрываем)
+    cardIcons.forEach((icon) => {
+      icon.classList.add('hidden');
     });
 
-    // Показываем иконку в зависимости от платёжной системы
+    // Показываем только иконку нужной карты, убирая у неё класс `hidden`
     switch (system) {
       case 'Visa':
-        document.querySelector('img[alt="Visa"]').style.display = 'block';
+        document.querySelector('img[alt="Visa"]').classList.remove('hidden');
         break;
       case 'MasterCard':
-        document.querySelector('img[alt="MasterCard"]').style.display = 'block';
+        document
+          .querySelector('img[alt="MasterCard"]')
+          .classList.remove('hidden');
         break;
       case 'American Express':
-        document.querySelector('img[alt="American Express"]').style.display = 'block';
-        break;
-      case 'Mir':
-        document.querySelector('img[alt="Mir"]').style.display = 'block';
+        document
+          .querySelector('img[alt="American Express"]')
+          .classList.remove('hidden');
         break;
       case 'Discover':
-        document.querySelector('img[alt="Discover"]').style.display = 'block';
+        document
+          .querySelector('img[alt="Discover"]')
+          .classList.remove('hidden');
+        break;
+      case 'JCB':
+        document.querySelector('img[alt="JCB"]').classList.remove('hidden');
+        break;
+      case 'Diners Club':
+        document
+          .querySelector('img[alt="Diners Club"]')
+          .classList.remove('hidden');
+        break;
+      case 'Mir':
+        document.querySelector('img[alt="Mir"]').classList.remove('hidden');
         break;
       default:
         console.log('Платёжная система не распознана');
@@ -84,3 +98,9 @@ function setupCardValidation() {
 
 // Вызываем функцию для установки обработчика событий
 setupCardValidation();
+
+/* module.exports = {
+  luhnCheck,
+  getCardSystem,
+  setupCardValidation,
+}; */
