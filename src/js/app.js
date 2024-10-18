@@ -37,7 +37,7 @@ function setupCardValidation() {
   const validateButton = document.getElementById('validate');
 
   if (!validateButton) {
-    console.error('Кнопка "validate" не найдена');
+    console.log('Кнопка "validate" не найдена');
     return;
   }
 
