@@ -1,5 +1,7 @@
 const path = require('node:path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   output: {
@@ -24,7 +26,10 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
+        use: [
+          MiniCssExtractPlugin.loader, // Заменяем 'style-loader' на MiniCssExtractPlugin.loader
+          'css-loader',
+        ],
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
@@ -40,6 +45,10 @@ module.exports = {
     new HtmlWebPackPlugin({
       template: './src/index.html',
       filename: './index.html',
+    }),
+    new MiniCssExtractPlugin({ // Добавляем плагин для извлечения CSS
+      filename: './src/css/style.css', // Имя выходного файла CSS
+      chunkFilename: './style.css',
     }),
   ],
 };
