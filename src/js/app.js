@@ -99,8 +99,8 @@ function setupCardValidation() {
 // Вызываем функцию для установки обработчика событий
 setupCardValidation();
 
-/* module.exports = {
+module.exports = {
   luhnCheck,
   getCardSystem,
   setupCardValidation,
-}; */
+};

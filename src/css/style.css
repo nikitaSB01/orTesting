@@ -27,6 +27,8 @@ body {
 .hidden {
     opacity: 0.5;
     filter: grayscale(100%);
+    display: none;
+
 }
 
 .input-group {
@@ -54,9 +56,4 @@ body {
 
 .input-group button:hover {
     background-color: #218838;
-}
-
-.hidden {
-    opacity: 0.5;
-    filter: grayscale(100%);
 }
