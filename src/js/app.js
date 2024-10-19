@@ -1,5 +1,3 @@
-console.log('hell');
-
 // Функция для проверки валидности номера карты (алгоритм Луна)
 function luhnCheck(cardNumber) {
   let sum = 0;
@@ -42,7 +40,14 @@ function setupCardValidation() {
   }
 
   validateButton.addEventListener('click', () => {
-    const cardNumber = document.querySelector('.input-group input').value; // Получаем номер карты
+    const cardNumber = document.querySelector('.input-group input').value.trim(); // Получаем номер карты и убираем лишние пробелы
+
+    /* // Если строка пустая, выводим сообщение и не продолжаем проверку
+    if (cardNumber === '') {
+      console.log('Введите номер карты');
+      return;
+    } */
+
     const system = getCardSystem(cardNumber); // Определяем платёжную систему
     const cardIcons = document.querySelectorAll('.card-icons-img'); // Получаем все изображения карт
 
@@ -50,6 +55,15 @@ function setupCardValidation() {
     cardIcons.forEach((icon) => {
       icon.classList.add('hidden');
     });
+
+    // Если строка пустая, выводим сообщение и не продолжаем проверку
+    if (cardNumber === '') {
+      cardIcons.forEach((icon) => {
+        icon.classList.remove('hidden');
+      });
+      console.log('Введите номер карты');
+      return;
+    }
 
     // Показываем только иконку нужной карты, убирая у неё класс `hidden`
     switch (system) {
