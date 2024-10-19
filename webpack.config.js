@@ -6,6 +6,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.js',
+    clean: true, // Очищает папку dist перед каждой сборкой
   },
   module: {
     rules: [
@@ -26,10 +28,7 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: [
-          MiniCssExtractPlugin.loader, // Заменяем 'style-loader' на MiniCssExtractPlugin.loader
-          'css-loader',
-        ],
+        use: [MiniCssExtractPlugin.loader, 'css-loader'], // Используй MiniCssExtractPlugin.loader
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
@@ -46,9 +45,8 @@ module.exports = {
       template: './src/index.html',
       filename: './index.html',
     }),
-    new MiniCssExtractPlugin({ // Добавляем плагин для извлечения CSS
-      filename: './src/css/style.css', // Имя выходного файла CSS
-      chunkFilename: './style.css',
+    new MiniCssExtractPlugin({
+      filename: 'styles.css', // Имя файла для стилей
     }),
   ],
 };
